@@ -1,33 +1,28 @@
-project "Voxel-App"
+project "Oni-Voxel-App"
    kind "ConsoleApp"
    language "C++"
    cppdialect "C++20"
-   targetdir "Binaries/%{cfg.buildcfg}"
-   staticruntime "off"
+   staticruntime "on"
+   
+   targetdir ("%{wks.location}/binaries/bin/" .. OutputDir .. "/%{prj.name}")
+   objdir ("%{wks.location}/binaries/bin-int/" .. OutputDir .. "/%{prj.name}")
 
-   files { 
-        "Source/**.h", 
-        "Source/**.cpp" ,
-        "Source/**.hpp" ,
-        "Source/**.cxx" ,
-        "Source/**.c" ,
-    }
+   files 
+   { 
+       "src/**.h", 
+       "src/**.cpp" ,
+   }
 
    includedirs
    {
-      "Source",
-
-	  -- Include Core
-	  "../Core/Source"
+	  -- Include Engine Core
+	  "%{wks.location}/Oniros/src"
    }
 
    links
    {
-      "Core"
+      "Oniros"
    }
-
-   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    filter "system:windows"
        systemversion "latest"

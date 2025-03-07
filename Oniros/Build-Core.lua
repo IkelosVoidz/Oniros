@@ -1,25 +1,23 @@
-project "Core"
+project "Oniros"
    kind "StaticLib"
    language "C++"
    cppdialect "C++20"
-   targetdir "Binaries/%{cfg.buildcfg}"
-   staticruntime "off"
+   staticruntime "on"
 
-   files { 
-        "Source/**.h", 
-        "Source/**.cpp" ,
-        "Source/**.hpp" ,
-        "Source/**.cxx" ,
-        "Source/**.c" ,
-    }
+   targetdir ("%{wks.location}/binaries/bin/" .. OutputDir .. "/%{prj.name}")
+   objdir ("%{wks.location}/binaries/bin-int/" .. OutputDir .. "/%{prj.name}")
 
+   files 
+   {
+       "src/**.h", 
+       "src/**.cpp" ,
+   } 
+       
    includedirs
    {
-      "Source"
+      "src"
    }
 
-   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    filter "system:windows"
        systemversion "latest"
