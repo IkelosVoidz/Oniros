@@ -15,27 +15,27 @@ project "Oniros"
        
    includedirs
    {
-      "src"
+      "src",
+      "vendor/spdlog/include"
    }
-
 
    filter "system:windows"
        systemversion "latest"
-       defines { }
+       defines { "WINDOWS" }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { "ONI_DEBUG" }
        runtime "Debug"
        symbols "On"
 
    filter "configurations:Release"
-       defines { "RELEASE" }
+       defines { "ONI_RELEASE" }
        runtime "Release"
        optimize "On"
        symbols "On"
 
    filter "configurations:Dist"
-       defines { "DIST" }
+       defines { "ONI_DIST" }
        runtime "Release"
        optimize "On"
        symbols "Off"

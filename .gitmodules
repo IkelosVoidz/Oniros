@@ -1,0 +1,3 @@
+[submodule "Oniros/vendor/spdlog"]
+	path = Oniros/vendor/spdlog
+	url = https://github.com/gabime/spdlog
