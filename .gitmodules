@@ -1,3 +1,15 @@
 [submodule "Oniros/vendor/spdlog"]
 	path = Oniros/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Oniros/vendor/SDL/SDL3"]
+	path = Oniros/vendor/SDL/SDL3
+	url = https://github.com/IkelosVoidz/SDL3-premake.git
+[submodule "Oniros/vendor/SDL/SDL_mixer"]
+	path = Oniros/vendor/SDL/SDL_mixer
+	url = https://github.com/IkelosVoidz/SDL_mixer-premake.git
+[submodule "Oniros/vendor/SDL/SDL_image"]
+	path = Oniros/vendor/SDL/SDL_image
+	url = https://github.com/IkelosVoidz/SDL_image-premake.git
+[submodule "Oniros/vendor/SDL/SDL_ttf"]
+	path = Oniros/vendor/SDL/SDL_ttf
+	url = https://github.com/IkelosVoidz/SDL_ttf-premake.git
