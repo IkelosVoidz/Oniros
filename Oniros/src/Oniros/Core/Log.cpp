@@ -1,3 +1,4 @@
+#include "onipch.h"
 #include "Oniros/Core/Log.h"
 #include <spdlog/sinks/stdout_color_sinks.h>
 

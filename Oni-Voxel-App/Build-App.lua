@@ -14,15 +14,16 @@ project "Oni-Voxel-App"
    }
 
    defines
-	{
+   {
 		"_CRT_SECURE_NO_WARNINGS",
-	}
+   }
 
    includedirs
    {
 	  -- Include Engine Core and libraries
+      "%{IncludeDir.spdlog}",
 	  "%{wks.location}/Oniros/src",
-      "%{wks.location}/Oniros/vendor/spdlog/include"
+      "%{wks.location}/Oniros/vendor",
    }
 
    links
@@ -32,22 +33,21 @@ project "Oni-Voxel-App"
 
    filter "system:windows"
        systemversion "latest"
-       defines { "WINDOWS" }
 
    filter "configurations:Debug"
        defines { "ONI_DEBUG" }
        runtime "Debug"
-       symbols "On"
+       symbols "on"
 
    filter "configurations:Release"
        defines { "ONI_RELEASE" }
        runtime "Release"
-       optimize "On"
-       symbols "On"
+       optimize "on"
+       symbols "on"
 
    filter "configurations:Dist"
         kind "WindowedApp"
         defines { "ONI_DIST" }
         runtime "Release"
-        optimize "On"
-        symbols "Off"
+        optimize "on"
+        symbols "off"

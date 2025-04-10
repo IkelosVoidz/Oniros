@@ -1,7 +1,8 @@
 #pragma once
-#include <memory>
+#include "onipch.h"
 
 #include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
 
 
 namespace Oniros {
