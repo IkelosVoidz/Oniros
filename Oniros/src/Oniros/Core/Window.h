@@ -38,6 +38,7 @@ namespace Oniros
 
 
 	private:
+
 		struct WindowData
 		{
 			std::string Title;

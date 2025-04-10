@@ -1,15 +1,14 @@
 #include "onipch.h"
 #include "Window.h"
-
-
+#include <SDL3/SDL.h>
+#define SDL_MAIN_HANDLED
 
 namespace Oniros
 {
-	#define SDL_MAIN_HANDLED
-	#include <SDL3/SDL.h>
 
-	static SDL_Window* m_Window = nullptr;
-	static SDL_GLContext m_Context = nullptr;
+	SDL_Window* m_Window = nullptr;
+	SDL_GLContext m_Context = nullptr;
+
 	Window::Window(const WindowProps& props)
 	{
 		m_WindowData.Title = props.Title;

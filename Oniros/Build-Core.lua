@@ -1,5 +1,5 @@
 project "Oniros"
-   kind "ConsoleApp"
+   kind "StaticLib"
    language "C++"
    cppdialect "C++20"
    staticruntime "on"
@@ -7,8 +7,8 @@ project "Oniros"
    targetdir ("%{wks.location}/binaries/bin/" .. OutputDir .. "/%{prj.name}")
    objdir ("%{wks.location}/binaries/bin-int/" .. OutputDir .. "/%{prj.name}")
 
---    pchheader "onipch.h"
---    pchsource "src/onipch.cpp"
+   pchheader "onipch.h"
+   pchsource "src/onipch.cpp"
 
    files 
    {
@@ -29,17 +29,22 @@ project "Oniros"
    }
 
    libdirs{
-       "%{wks.location}/Oniros/vendor/SDL/SDL3/bin/" .. OutputDir .. "/SDL3"
+       "%{LibDir.SDL}"
    }
 
-   links
-   {
-      "SDL3",
+   links{
+        "SDL3-static",
    }
 
    filter "system:windows"
        systemversion "latest"
 
+       links {
+            "setupapi",  
+            "winmm",     
+            "imm32",  
+            "version"   
+        }
    filter "configurations:Debug"
        defines { "ONI_DEBUG" }
        runtime "Debug"
