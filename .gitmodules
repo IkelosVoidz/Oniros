@@ -1,3 +1,6 @@
 [submodule "Oniros/vendor/spdlog"]
 	path = Oniros/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Oniros/vendor/SDL"]
+	path = Oniros/vendor/SDL
+	url = https://github.com/IkelosVoidz/SDL-Oniros.git
