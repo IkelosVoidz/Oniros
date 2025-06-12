@@ -26,25 +26,34 @@ project "Oniros"
       "src",
       "%{IncludeDir.spdlog}",
       "%{IncludeDir.SDL}",
+      "%{IncludeDir.GLAD}",
    }
 
-   libdirs{
-       "%{LibDir.SDL}"
+   libdirs
+   {
+       "%{LibDir.SDL}",
    }
 
-   links{
-        "SDL3-static",
+   links {
+        "SDL3.lib",
+        "GLAD"
    }
+
+--    links{
+--         "SDL3-static",
+--    }
 
    filter "system:windows"
        systemversion "latest"
 
-       links {
-            "setupapi",  
-            "winmm",     
-            "imm32",  
-            "version"   
-        }
+       postbuildcommands { "{COPY} %{LibDir.SDL}/SDL3.dll ../binaries/bin/" .. OutputDir .. "/Oni-Voxel-App" } -- Copy SDL3.dll to build folder
+
+    --    links {
+    --         "setupapi",  
+    --         "winmm",     
+    --         "imm32",  
+    --         "version"   
+    --     }
    filter "configurations:Debug"
        defines { "ONI_DEBUG" }
        runtime "Debug"
@@ -61,3 +70,4 @@ project "Oniros"
        runtime "Release"
        optimize "on"
        symbols "off"
+    

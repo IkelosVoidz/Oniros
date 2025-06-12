@@ -1,10 +1,11 @@
 #pragma once
-
 #include "Oniros/Core/Window.h"
+#include "Oniros/Core/Base.h"
 
+#include "Oniros/Events/Event.h"
+#include "Oniros/Events/ApplicationEvent.h"
 
 namespace Oniros {
-
 	class Application
 	{
 	public:
@@ -16,10 +17,13 @@ namespace Oniros {
 
 	private:
 
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		bool m_Running = true;
 
-		void OnEvent(int& event);
+		void OnEvent(Event& event);
+		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
+		
 	};
 }
 

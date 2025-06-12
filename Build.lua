@@ -16,8 +16,9 @@ workspace "Oniros"
 OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
-	include "Oniros/vendor/SDL/SDL3"
+	-- include "Oniros/vendor/SDL/SDL3"
 	--include "Oniros/vendor/imgui"
+   include "Oniros/vendor/GLAD"
 group ""
 
 group "Core"

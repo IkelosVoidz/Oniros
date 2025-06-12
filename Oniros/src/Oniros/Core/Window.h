@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Oniros/Core/Base.h"
+#include "Oniros/Events/Event.h"
 
 namespace Oniros
 {
@@ -22,33 +23,23 @@ namespace Oniros
 	{
 	public:
 
-		using EventCallbackFn  = std::function<void(int&)>; //TODO :replace with Event TYPE
-		
-		Window(const WindowProps& props = WindowProps());
-		~Window();
-		void OnUpdate();
-		uint32_t GetWidth();
-		uint32_t GetHeight();
+		using EventCallbackFn = std::function<void(Event&)>;
 
+		virtual ~Window() = default;
 
-		// Window attributes
-		void SetEventCallback(const EventCallbackFn&);
-		void SetVSync(bool enabled);
-		bool IsVSync();
+		virtual void OnUpdate() = 0;
 
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
 
-	private:
+		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
+		virtual void SetVSync(bool enabled) = 0;
+		virtual bool IsVSync() const = 0;
 
-		struct WindowData
-		{
-			std::string Title;
-			unsigned int Width, Height;
-			bool VSync;
+		virtual void* GetNativeWindow() const = 0;
 
-			EventCallbackFn EventCallback;
-		};
+		static Window* Create(const WindowProps& props = WindowProps());
 
-		WindowData m_WindowData;
 	};
 }
 
