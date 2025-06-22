@@ -8,18 +8,17 @@
 
 #define SDL_MAIN_HANDLED
 
+
 namespace Oniros
 {
 	Window* Window::Create(const WindowProps& props)
 	{
 		return new SDLWindow(props);
 	}
-
-	SDLWindow::SDLWindow(const WindowProps& props)
+	 
+	SDLWindow::SDLWindow(const WindowProps& props): m_WindowProps(props)
 	{	
-		m_Window = nullptr;
-		m_Context = nullptr;
-		Initialize(props);
+		
 	}
 
 	SDLWindow::~SDLWindow()
@@ -27,14 +26,34 @@ namespace Oniros
 		Shutdown();
 	}
 
-	void SDLWindow::Initialize(const WindowProps& props)
+	void SDLWindow::Init()
 	{
-		m_WindowData.Title = props.Title;
-		m_WindowData.Width = props.Width;
-		m_WindowData.Height = props.Height;
-		m_WindowData.VSync = false;
+		m_WindowData.Title = m_WindowProps.Title;
+		m_WindowData.Width = m_WindowProps.Width;
+		m_WindowData.Height = m_WindowProps.Height;
 
-		ONI_CORE_INFO("Creating window: {0}, {1}x{2}", props.Title, props.Width, props.Height);
+		ONI_CORE_INFO("Creating window: {0}, {1}x{2}", m_WindowData.Title, m_WindowData.Width, m_WindowData.Height);
+
+		
+		if (!SDL_Init(SDL_INIT_VIDEO)) {
+
+			ONI_CORE_ERROR("Failed to initialize SDL: {0}", SDL_GetError());
+			return;
+		}
+
+		Uint32 windowFlags = SDL_WINDOW_OPENGL;
+
+		if (m_WindowProps.Resizable) {
+			windowFlags |= SDL_WINDOW_RESIZABLE;
+		}
+
+		if (m_WindowProps.Borderless) {
+			windowFlags |= SDL_WINDOW_BORDERLESS;
+		}
+
+		if (m_WindowProps.Fullscreen) {
+			windowFlags |= SDL_WINDOW_FULLSCREEN;
+		}
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
@@ -42,17 +61,14 @@ namespace Oniros
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-		if (!SDL_Init(SDL_INIT_VIDEO)) {
 
-			ONI_CORE_ERROR("Failed to initialize SDL: {0}", SDL_GetError());
-			return;
-		}
 
 		// Create SDL window
 		m_Window = SDL_CreateWindow(m_WindowData.Title.c_str(),
 			m_WindowData.Width,
 			m_WindowData.Height,
-			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+			windowFlags 
+		);
 		if (!m_Window) {
 
 			ONI_CORE_ERROR("Failed to create SDL window: {0}", SDL_GetError());
@@ -157,6 +173,7 @@ namespace Oniros
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		SDL_GL_SwapWindow(m_Window);
 	}
+
  
 	void SDLWindow::SetVSync(bool enabled)
 	{
@@ -166,12 +183,81 @@ namespace Oniros
 		else {
 			SDL_GL_SetSwapInterval(0);
 		}
-		m_WindowData.VSync = enabled;
+		m_WindowProps.VSync = enabled;
+	}
+
+	std::pair<float, float> SDLWindow::GetWindowPos() const
+	{
+		int x, y;
+		SDL_GetWindowPosition(m_Window, &x, &y);
+		return { static_cast<float>(x), static_cast<float>(y) };
 	}
 
 	bool SDLWindow::IsVSync() const 
 	{
-		return m_WindowData.VSync;
+		return m_WindowProps.VSync;
+	}
+
+	void SDLWindow::SetResizable(bool resizable) 
+	{
+		m_WindowProps.Resizable = resizable;
+		SDL_SetWindowResizable(m_Window, resizable);
+	}
+
+	bool SDLWindow::isResizable() const
+	{
+		return m_WindowProps.Resizable;
+	}
+
+	void SDLWindow::SetFullscreen(bool enabled)
+	{
+		m_WindowProps.Fullscreen = enabled;
+		SDL_SetWindowFullscreen(m_Window, enabled);
+
+	}
+
+	bool SDLWindow::IsFullscreen() const
+	{
+		return m_WindowProps.Fullscreen;
+	}
+
+	void SDLWindow::SetBorderless(bool enabled)
+	{
+		m_WindowProps.Borderless = enabled;
+		SDL_SetWindowBordered(m_Window, !enabled);
+
+		
+	}
+
+	bool SDLWindow::IsBorderless() const
+	{
+		return m_WindowProps.Borderless;
+	}
+
+	void SDLWindow::Maximize()
+	{
+		SDL_MaximizeWindow(m_Window);
+	}
+
+	void SDLWindow::CenterWindow()
+	{
+		SDL_Rect displayBounds;
+		if (SDL_GetDisplayBounds(0, &displayBounds) == 0) {
+			int displayWidth = displayBounds.w;
+			int displayHeight = displayBounds.h;
+			int x = displayBounds.x + (displayWidth - m_WindowData.Width) / 2;
+			int y = displayBounds.y + (displayHeight - m_WindowData.Height) / 2;
+			SDL_SetWindowPosition(m_Window, x, y);
+		}
+		else {
+			ONI_CORE_ERROR("Failed to get display bounds: {0}", SDL_GetError());
+		}
+	}
+
+	void SDLWindow::SetTitle(const std::string& title)
+	{
+		m_WindowData.Title = title;
+		SDL_SetWindowTitle(m_Window, m_WindowData.Title.c_str());
 	}
 	
 }

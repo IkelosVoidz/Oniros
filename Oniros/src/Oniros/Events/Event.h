@@ -83,8 +83,6 @@ namespace Oniros {
 
 }
 
-
-
 template <>
 struct fmt::formatter<Oniros::Event> : fmt::formatter<std::string> {
 	template <typename FormatContext>
@@ -92,4 +90,3 @@ struct fmt::formatter<Oniros::Event> : fmt::formatter<std::string> {
 		return fmt::formatter<std::string>::format(e.ToString(), ctx);
 	}
 };
-

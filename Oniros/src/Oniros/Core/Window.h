@@ -7,16 +7,13 @@ namespace Oniros
 {
 	struct WindowProps
 	{
-		std::string Title;
-		uint32_t Width;
-		uint32_t Height;
-
-		WindowProps(const std::string& title = "Oniros Engine",
-			uint32_t width = 1600,
-			uint32_t height = 900)
-			: Title(title), Width(width), Height(height)
-		{
-		}
+		std::string Title = "Oniros Engine";
+		uint32_t Width = 1600;
+		uint32_t Height = 900;
+		bool Fullscreen = false;
+		bool Borderless = false;
+		bool Resizable = true;
+		bool VSync = true;	
 	};
 
 	class Window
@@ -27,14 +24,34 @@ namespace Oniros
 
 		virtual ~Window() = default;
 
-		virtual void OnUpdate() = 0;
+		virtual void Init() = 0;
+		virtual void Shutdown() = 0;
 
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
+		virtual std::pair<uint32_t, uint32_t> GetSize() const = 0;
+		virtual std::pair<float, float> GetWindowPos() const = 0;
+
+		virtual void Maximize() = 0;
+		virtual void CenterWindow() = 0;
+
+		virtual void OnUpdate() = 0;
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
+
+		//Window properties
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+		virtual void SetResizable(bool resizable) = 0;
+		virtual bool isResizable() const = 0;
+		virtual void SetFullscreen(bool enabled) = 0;
+		virtual bool IsFullscreen() const = 0;
+		virtual void SetBorderless(bool enabled) = 0;
+		virtual bool IsBorderless() const = 0;
+
+		virtual const std::string& GetTitle() const = 0;
+		virtual void SetTitle(const std::string& title) = 0;
+
 
 		virtual void* GetNativeWindow() const = 0;
 

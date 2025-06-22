@@ -23,7 +23,7 @@ project "Oni-Voxel-App"
 	  -- Include Engine Core and libraries
       "%{IncludeDir.spdlog}",
 	  "%{wks.location}/Oniros/src",
-      "%{wks.location}/Oniros/vendor",
+      "%{IncludeDir.GLM}",
    }
 
    links

@@ -27,6 +27,9 @@ project "Oniros"
       "%{IncludeDir.spdlog}",
       "%{IncludeDir.SDL}",
       "%{IncludeDir.GLAD}",
+      "%{IncludeDir.ImGui}",
+      "%{IncludeDir.GLM}",
+
    }
 
    libdirs
@@ -36,7 +39,8 @@ project "Oniros"
 
    links {
         "SDL3.lib",
-        "GLAD"
+        "GLAD",
+        "ImGui"
    }
 
 --    links{

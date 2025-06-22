@@ -413,3 +413,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+
+Oniros/vendor/GLAD/bin/*
+Oniros/vendor/GLAD/bin-int/*

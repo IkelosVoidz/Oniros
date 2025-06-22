@@ -15,6 +15,8 @@ namespace Oniros {
 
 		void Run();
 
+		static inline Application& Get() { return *s_Instance; }
+
 	private:
 
 		Scope<Window> m_Window;
@@ -23,7 +25,10 @@ namespace Oniros {
 		void OnEvent(Event& event);
 		bool OnWindowClose(WindowCloseEvent& event);
 		bool OnWindowResize(WindowResizeEvent& event);
-		
+
+
+
+		inline static Application* s_Instance = nullptr;
 	};
 }
 
