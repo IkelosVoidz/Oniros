@@ -396,7 +396,7 @@ FodyWeavers.xsd
 # VS Code files for those working on multiple tools
 .vscode/*
 .vscode/settings.json
-!vscode/tasks.json
+vscode/tasks.json
 .vscode/launch.json
 .vscode/extensions.json
 *.code-workspace
@@ -415,6 +415,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 
+Oniros/vendor/GLAD/bin/
+Oniros/vendor/GLAD/bin-int/
 
-Oniros/vendor/GLAD/bin/*
-Oniros/vendor/GLAD/bin-int/*
