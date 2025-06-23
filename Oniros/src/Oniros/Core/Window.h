@@ -2,6 +2,7 @@
 
 #include "Oniros/Core/Base.h"
 #include "Oniros/Events/Event.h"
+#include "Oniros/Renderer/RendererContext.h"
 
 namespace Oniros
 {
@@ -36,6 +37,7 @@ namespace Oniros
 		virtual void CenterWindow() = 0;
 
 		virtual void OnUpdate() = 0;
+		virtual void SwapBuffers() = 0; //Always to be called after on update and after rendering pass
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 
@@ -54,6 +56,8 @@ namespace Oniros
 
 
 		virtual void* GetNativeWindow() const = 0;
+		virtual Ref<RendererContext> GetRenderContext() = 0;
+
 
 		static Window* Create(const WindowProps& props = WindowProps());
 

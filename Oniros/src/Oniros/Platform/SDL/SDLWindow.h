@@ -1,6 +1,7 @@
 #pragma once
 #include "Oniros/Core/Window.h"
 #include "Oniros/Core/Base.h"
+#include "Oniros/Renderer/RendererContext.h"
 #include <SDL3/SDL.h>
 
 namespace Oniros
@@ -16,6 +17,8 @@ namespace Oniros
 		virtual void Init();
 
 		void OnUpdate() override;
+		virtual void SwapBuffers() override;
+
 		inline uint32_t GetWidth() const override { return m_WindowData.Width; };
 		inline uint32_t GetHeight() const override { return m_WindowData.Height; }
 		virtual std::pair<uint32_t, uint32_t> GetSize() const override { return { m_WindowData.Width, m_WindowData.Height }; }
@@ -44,6 +47,7 @@ namespace Oniros
 		virtual void SetTitle(const std::string& title) override;
 
 		virtual inline void* GetNativeWindow() const { return m_Window; }
+		virtual inline Ref<RendererContext> GetRenderContext() override { return m_Context; }
 		
 	private:
 
@@ -62,7 +66,7 @@ namespace Oniros
 		WindowData m_WindowData;
 
 		SDL_Window* m_Window;
-		SDL_GLContext m_Context;
+		Ref<RendererContext> m_Context;
 	};
 }
 

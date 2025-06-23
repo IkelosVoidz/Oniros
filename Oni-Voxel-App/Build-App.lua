@@ -21,14 +21,16 @@ project "Oni-Voxel-App"
    includedirs
    {
 	  -- Include Engine Core and libraries
-      "%{IncludeDir.spdlog}",
 	  "%{wks.location}/Oniros/src",
+      "%{IncludeDir.spdlog}",
       "%{IncludeDir.GLM}",
+      "%{IncludeDir.ImGui}",
    }
 
    links
    {
-      "Oniros"
+      "Oniros",
+      "ImGui",
    }
 
    filter "system:windows"

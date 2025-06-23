@@ -1,10 +1,11 @@
 #include "onipch.h"
-#include <glad/glad.h>
 #include "SDLWindow.h"
 
 #include "Oniros/Events/ApplicationEvent.h"
 #include "Oniros/Events/MouseEvent.h"
 #include "Oniros/Events/KeyEvent.h"
+
+#include <backends/imgui_impl_sdl3.h>
 
 #define SDL_MAIN_HANDLED
 
@@ -55,14 +56,6 @@ namespace Oniros
 			windowFlags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-
-
 		// Create SDL window
 		m_Window = SDL_CreateWindow(m_WindowData.Title.c_str(),
 			m_WindowData.Width,
@@ -75,24 +68,16 @@ namespace Oniros
 			return;
 		}
 
-		// Create OpenGL context
-		m_Context = SDL_GL_CreateContext(m_Window);
-		if (!m_Context) {
-
-			ONI_CORE_ERROR("Failed to create OpenGL context: {0}", SDL_GetError());
-			return;
-		}
-
-		gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+		m_Context = RendererContext::Create(m_Window);
+		m_Context->Create(); //TODO : Rename this? This will create confusion later
 
 		// Enable VSync by default
 		SetVSync(true);
 	}
 	void SDLWindow::Shutdown()
 	{
-		if (m_Context) {
-			SDL_GL_DestroyContext(m_Context);
-		}
+		m_Context->Destroy();
+
 		if (m_Window) {
 			SDL_DestroyWindow(m_Window);
 		}
@@ -103,6 +88,11 @@ namespace Oniros
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
+
+			//Bit of a hack but honestly its fine, its just how IMGUI works, i dont want to make it go through my event system just to go back to regular SDL events, not worth it
+			//if it ever becomes a problem (events being blocked or processed twice) we can always rework this)
+			ImGui_ImplSDL3_ProcessEvent(&event); 
+
 			switch (event.type) {
 				case SDL_EVENT_QUIT: {
 					WindowCloseEvent windowCloseEvt;
@@ -168,13 +158,13 @@ namespace Oniros
 				}
 			}
 		}
-
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		SDL_GL_SwapWindow(m_Window);
 	}
 
- 
+	void SDLWindow::SwapBuffers()
+	{
+		m_Context->SwapBuffers();
+	}
+
 	void SDLWindow::SetVSync(bool enabled)
 	{
 		if (enabled) {
