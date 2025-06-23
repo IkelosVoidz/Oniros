@@ -5,7 +5,7 @@
 #include "Oniros/Events/Event.h"
 #include "Oniros/Events/ApplicationEvent.h"
 
-//#include "Oniros/ImGui/ImGuiSystem.h"
+#include "Oniros/ImGui/ImGuiSystem.h"
 
 namespace Oniros {
 	class Application
@@ -26,7 +26,7 @@ namespace Oniros {
 	private:
 
 		Scope<Window> m_Window;
-		//Scope<ImGuiSystem> m_ImGuiSystem;
+		Scope<ImGuiSystem> m_ImGuiSystem;
 
 
 		bool m_Running = true;

@@ -16,8 +16,8 @@ namespace Oniros {
 		m_Window->SetEventCallback(ONI_BIND_EVENT_FN(Application::OnEvent));
 
 
-		//m_ImGuiSystem = CreateScope<ImGuiSystem>();
-		//m_ImGuiSystem->Init();
+		m_ImGuiSystem = CreateScope<ImGuiSystem>();
+		m_ImGuiSystem->Init();
 	}
 
 	Application::~Application() {
@@ -45,9 +45,9 @@ namespace Oniros {
 
 	void Application::OnImGuiRender()
 	{
-		////TODO : REMOVE TEST
-		//static bool show = true;
-		//ImGui::ShowDemoWindow(&show);
+		//TODO : REMOVE TEST
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 
 	void Application::OnEvent(Event& event) {
@@ -82,8 +82,8 @@ namespace Oniros {
 
 	void Application::RenderUI()
 	{
-		//m_ImGuiSystem->Begin();
+		m_ImGuiSystem->Begin();
 		OnImGuiRender(); //To be implemented by children applications
-		//m_ImGuiSystem->End();
+		m_ImGuiSystem->End();
 	}
 }
