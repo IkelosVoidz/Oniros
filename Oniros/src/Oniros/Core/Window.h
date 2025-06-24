@@ -36,7 +36,7 @@ namespace Oniros
 		virtual void Maximize() = 0;
 		virtual void CenterWindow() = 0;
 
-		virtual void OnUpdate() = 0;
+		virtual void ProcessEvents() = 0;
 		virtual void SwapBuffers() = 0; //Always to be called after on update and after rendering pass
 
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;

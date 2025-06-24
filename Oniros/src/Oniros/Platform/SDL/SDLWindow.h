@@ -16,7 +16,7 @@ namespace Oniros
 
 		virtual void Init();
 
-		void OnUpdate() override;
+		void ProcessEvents() override;
 		virtual void SwapBuffers() override;
 
 		inline uint32_t GetWidth() const override { return m_WindowData.Width; };

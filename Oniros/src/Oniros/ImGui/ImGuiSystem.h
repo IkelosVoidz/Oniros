@@ -23,6 +23,7 @@ namespace Oniros {
 		// Begin and End are used to start and end the ImGui frame
 		void Begin();
 		void End();
+
 	};
 }
 

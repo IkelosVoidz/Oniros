@@ -4,3 +4,5 @@
 
 #include "Oniros/Core/Application.h"
 #include "Oniros/Core/Log.h"
+
+#include "Oniros/Core/Input.h"

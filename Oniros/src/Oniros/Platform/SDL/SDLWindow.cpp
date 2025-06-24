@@ -4,6 +4,7 @@
 #include "Oniros/Events/ApplicationEvent.h"
 #include "Oniros/Events/MouseEvent.h"
 #include "Oniros/Events/KeyEvent.h"
+#include "Oniros/Core/Input.h"
 
 #include <backends/imgui_impl_sdl3.h>
 
@@ -84,7 +85,7 @@ namespace Oniros
 		SDL_Quit();
 	}
 	
-	void SDLWindow::OnUpdate()
+	void SDLWindow::ProcessEvents()
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -127,22 +128,40 @@ namespace Oniros
 					break;
 				}
 				case SDL_EVENT_KEY_DOWN: {
-					KeyDownEvent keyDownEvt((KeyCode)event.key.key, event.key.repeat);
+					KeyCode key = static_cast<KeyCode>(event.key.key);
+					KeyDownEvent keyDownEvt(key, event.key.repeat);
 					m_WindowData.EventCallback(keyDownEvt);
+
+					if (event.key.repeat == 0) {
+						
+						Input::UpdateKeyState(key, KeyState::Pressed);
+					}
+					else {
+						Input::UpdateKeyState(key, KeyState::Held);
+					}
+
 					break;
 				}
 				case SDL_EVENT_KEY_UP: {
-					KeyUpEvent keyUpEvt((KeyCode)event.key.key);
+					KeyCode key = static_cast<KeyCode>(event.key.key);
+					KeyUpEvent keyUpEvt(key);
 					m_WindowData.EventCallback(keyUpEvt);
+
+					Input::UpdateKeyState(key, KeyState::Released);
 					break;
 				}
 				case SDL_EVENT_MOUSE_BUTTON_DOWN: {
-					MouseButtonPressedEvent mouseButtonPressedEvt((MouseCode)event.button.button);
+
+					MouseButton button = static_cast<MouseButton>(event.button.button);
+					Input::UpdateMouseButtonState(button, KeyState::Pressed);
+					MouseButtonPressedEvent mouseButtonPressedEvt(button);
 					m_WindowData.EventCallback(mouseButtonPressedEvt);
 					break;
 				}
 				case SDL_EVENT_MOUSE_BUTTON_UP: {
-					MouseButtonReleasedEvent mouseButtonReleasedEvt((MouseCode)event.button.button);
+					MouseButton button = static_cast<MouseButton>(event.button.button);
+					Input::UpdateMouseButtonState(button, KeyState::Released);
+					MouseButtonReleasedEvent mouseButtonReleasedEvt(button);
 					m_WindowData.EventCallback(mouseButtonReleasedEvt);
 					break;
 				}
