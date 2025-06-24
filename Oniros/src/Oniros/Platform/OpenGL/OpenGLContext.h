@@ -12,8 +12,8 @@ namespace Oniros {
 
 		virtual ~OpenGLContext() = default;
 
-		virtual void Create() override;
-		virtual void Destroy() override;
+		virtual void Init() override;
+		virtual void Shutdown() override;
 
 		virtual void BeginFrame() override {}; //These two methods are Unimplemented, this is more for other kinds of contexts, like Vulkan or DirectX.
 		virtual void OnResize(uint32_t width, uint32_t height) override {};

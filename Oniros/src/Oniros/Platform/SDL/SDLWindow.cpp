@@ -70,14 +70,14 @@ namespace Oniros
 		}
 
 		m_Context = RendererContext::Create(m_Window);
-		m_Context->Create(); //TODO : Rename this? This will create confusion later
+		m_Context->Init(); 
 
 		// Enable VSync by default
 		SetVSync(true);
 	}
 	void SDLWindow::Shutdown()
 	{
-		m_Context->Destroy();
+		m_Context->Shutdown();
 
 		if (m_Window) {
 			SDL_DestroyWindow(m_Window);

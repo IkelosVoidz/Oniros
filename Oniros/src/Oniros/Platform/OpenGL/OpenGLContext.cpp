@@ -7,9 +7,9 @@
 namespace Oniros {
 
  
-    void OpenGLContext::Create()
+    void OpenGLContext::Init()
     {
-        ONI_CORE_INFO("OpenGLContext::Create");
+        ONI_CORE_INFO("OpenGLContext::Init");
 
         // Set attributes for the OpenGL context
 
@@ -47,7 +47,7 @@ namespace Oniros {
         ONI_CORE_INFO("  Version: {0}", reinterpret_cast<const char*>(glGetString(GL_VERSION)));
     }
 
-    void OpenGLContext::Destroy()
+    void OpenGLContext::Shutdown()
     {
         if (m_Context) {
 			SDL_GL_DestroyContext(m_Context);

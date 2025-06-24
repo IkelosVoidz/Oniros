@@ -54,7 +54,7 @@ namespace Oniros {
 
 	void Application::Run() {
 
-		OnInit(); //To be implemented by children applicationsd
+		OnInit(); //To be implemented by children applications
 		while (m_Running) {
 			
 			ProcessEvents();
@@ -63,7 +63,7 @@ namespace Oniros {
 
 			if (!m_Minimized) //If the window is not minimized, we can render
 			{
-				glClearColor(1.0f, 0.0f, 0.0f, 1.0f); //Provisional 
+				glClearColor(0.1f, 0.1f, 0.1f, 1.0f); //Provisional 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -75,7 +75,7 @@ namespace Oniros {
 
 			Input::ResetInputStates(); //We clear all the input states that have been released so that they're not taken into consideration for the next frame
 		}
-		OnShutdown();
+		OnShutdown(); //To be implemented by children applications
 	}
 
 	void Application::ProcessEvents()

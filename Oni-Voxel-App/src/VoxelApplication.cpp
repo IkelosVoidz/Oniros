@@ -9,15 +9,15 @@ void VoxelApplication::OnImGuiRender()
 
 void VoxelApplication::OnUpdate(float deltaTime)
 {
-	if(Oniros::Input::IsKeyPressed(Oniros::KeyCode::Space)){
+	if (Oniros::Input::IsKeyPressed(Oniros::KeyCode::Space) && Oniros::Input::IsKeyPressed(Oniros::KeyCode::A)) {
 		ONI_TRACE("Space key pressed just this frame");
 	};
 
-	if (Oniros::Input::IsKeyDown(Oniros::KeyCode::Space)) {
+	if (Oniros::Input::IsKeyDown(Oniros::KeyCode::Space) && Oniros::Input::IsKeyDown(Oniros::KeyCode::A)) {
 		ONI_TRACE("Space key is being held down");
 	};
 
-	if (Oniros::Input::IsKeyReleased(Oniros::KeyCode::Space)) {
+	if (Oniros::Input::IsKeyReleased(Oniros::KeyCode::Space) && Oniros::Input::IsKeyReleased(Oniros::KeyCode::A)) {
 		ONI_TRACE("Space key released this frame");
 	}
 

@@ -43,21 +43,11 @@ project "Oniros"
         "ImGui"
    }
 
---    links{
---         "SDL3-static",
---    }
-
    filter "system:windows"
        systemversion "latest"
 
        postbuildcommands { "{COPY} %{LibDir.SDL}/SDL3.dll ../binaries/bin/" .. OutputDir .. "/Oni-Voxel-App" } -- Copy SDL3.dll to build folder
-
-    --    links {
-    --         "setupapi",  
-    --         "winmm",     
-    --         "imm32",  
-    --         "version"   
-    --     }
+  
    filter "configurations:Debug"
        defines { "ONI_DEBUG" }
        runtime "Debug"
@@ -74,4 +64,3 @@ project "Oniros"
        runtime "Release"
        optimize "on"
        symbols "off"
-    
