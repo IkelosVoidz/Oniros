@@ -63,6 +63,10 @@ namespace Oniros {
 
 		bool m_Running = true, m_Minimized = false;
 		inline static Application* s_Instance = nullptr;
+
+
+		//TEMPORARY 
+		unsigned int m_VertexArray, m_VertexBuffer , m_IndexBuffer;
 	};
 }
 

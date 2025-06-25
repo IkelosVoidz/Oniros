@@ -11,6 +11,9 @@
 namespace Oniros {
 
 
+	
+	
+
 	Application::Application(const ApplicationSpecification& specification) : m_Specification(specification) {
 
 
@@ -39,9 +42,36 @@ namespace Oniros {
 		m_Window->SetResizable(specification.Resizable);
 
 		m_ImGuiSystem = CreateScope<ImGuiSystem>();
-			m_ImGuiSystem->Init();
+		m_ImGuiSystem->Init();
 		
+		// TEMPORARY CODE
+
+		glGenVertexArrays(1, &m_VertexArray);
+		glBindVertexArray(m_VertexArray);
+
+
+		glGenBuffers(1, &m_VertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
+
+		float vertices[3 * 3] = {
+			-0.5f, -0.5f, 0.0f, // Bottom Left
+			0.5f, -0.5f, 0.0f,  // Bottom Right
+			0.0f,  0.5f, 0.0f   // Top
+		};
+
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+
+		glGenBuffers(1, &m_IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+		unsigned int indices[3] = { 0, 1, 2 }; // Triangle indices
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	}
+
+	
 
 	Application::~Application() {
 
@@ -65,6 +95,11 @@ namespace Oniros {
 			{
 				glClearColor(0.1f, 0.1f, 0.1f, 1.0f); //Provisional 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				glBindVertexArray(m_VertexArray);
+				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr); 
+
+
 
 
 
