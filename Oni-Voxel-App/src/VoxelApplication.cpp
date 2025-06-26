@@ -7,7 +7,7 @@ void VoxelApplication::OnImGuiRender()
 	ImGui::End();
 }
 
-void VoxelApplication::OnUpdate(float deltaTime)
+void VoxelApplication::OnUpdate(Oniros::DeltaTime deltaTime)
 {
 	if (Oniros::Input::IsKeyPressed(Oniros::KeyCode::Space) && Oniros::Input::IsKeyPressed(Oniros::KeyCode::A)) {
 		ONI_TRACE("Space key pressed just this frame");

@@ -7,6 +7,8 @@
 
 #include "Oniros/ImGui/ImGuiSystem.h"
 
+#include "Oniros/Core/DeltaTime.h"
+
 namespace Oniros {
 
 	struct ApplicationSpecification
@@ -35,10 +37,14 @@ namespace Oniros {
 		inline Window& GetWindow() { return *m_Window; }
 		static inline Application& Get() { return *s_Instance; }
 
+		DeltaTime GetDeltaTime() const { return m_DeltaTime; }
+		DeltaTime GetFrameTime() const { return m_FrameTime; }
+		float GetTime() const; 
+
 
 		//LifeCycle methods
 		virtual void OnInit() {}
-		virtual void OnUpdate(float deltaTime) {} //TODO : implement a delta time system
+		virtual void OnUpdate(DeltaTime deltaTime) {} 
 		virtual void OnShutdown() {}
 		virtual void OnImGuiRender() {}
 
@@ -59,6 +65,10 @@ namespace Oniros {
 		Scope<Window> m_Window;
 		Scope<ImGuiSystem> m_ImGuiSystem;
 		ApplicationSpecification m_Specification;
+
+		DeltaTime m_DeltaTime;
+		DeltaTime m_FrameTime;
+		float m_LastFrameTime = 0.0f;
 
 
 		bool m_Running = true, m_Minimized = false;

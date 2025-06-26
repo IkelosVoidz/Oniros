@@ -6,13 +6,12 @@
 
 #include <glad/glad.h> //Provisional 
 
+#include <SDL3/SDL.h>
+#include <glm/glm.hpp>
+
 
 
 namespace Oniros {
-
-
-	
-	
 
 	Application::Application(const ApplicationSpecification& specification) : m_Specification(specification) {
 
@@ -86,10 +85,10 @@ namespace Oniros {
 
 		OnInit(); //To be implemented by children applications
 		while (m_Running) {
-			
+
 			ProcessEvents();
 
-			OnUpdate(0.0f); //TODO : Implement a delta time system, this is just a placeholder
+			OnUpdate(m_DeltaTime); //TODO : Implement a delta time system, this is just a placeholder
 
 			if (!m_Minimized) //If the window is not minimized, we can render
 			{
@@ -97,20 +96,33 @@ namespace Oniros {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				glBindVertexArray(m_VertexArray);
-				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr); 
+				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 
 
 
 
 				//Render the UI, this is where we render our ImGui stuff that has been declared on the clients
-				if(m_Specification.EnableImGui) RenderImGui(); 
+				if (m_Specification.EnableImGui) RenderImGui();
 				m_Window->SwapBuffers(); //This is the last thing that we have to do
 			}
 
 			Input::ResetInputStates(); //We clear all the input states that have been released so that they're not taken into consideration for the next frame
+			float time = GetTime();
+			m_FrameTime = time - m_LastFrameTime;
+
+		
+			// Clamp the delta time to a maximum value to avoid large jumps in time
+			m_DeltaTime = glm::min<float>(m_FrameTime, 0.0333f); 
+			m_LastFrameTime = time;
+
 		}
 		OnShutdown(); //To be implemented by children applications
+	}
+
+	float Application::GetTime() const
+	{
+		return (float)SDL_GetTicks();
 	}
 
 	void Application::ProcessEvents()
@@ -139,16 +151,16 @@ namespace Oniros {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
-		/*if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;
 			return false;
 		}
 
 		m_Minimized = false;
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
-		return false;*/
+		glViewport(0, 0, e.GetWidth(), e.GetHeight()); //TODO : Put this in renderer
+		//Renderer::OnWindowResize(e.GetWidth(), e.GetHeight()); 
 
 		return false;
 	}

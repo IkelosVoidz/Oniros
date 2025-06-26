@@ -13,7 +13,7 @@ public:
 
 	virtual void OnImGuiRender() override;
 
-	virtual void OnUpdate(float deltaTime) override;
+	virtual void OnUpdate(Oniros::DeltaTime deltaTime) override;
 	
 };
 
